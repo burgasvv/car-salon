@@ -1,0 +1,78 @@
+
+
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Identity Requests
+
+
+
+###
+GET /api/v1/identities
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/identities/by-id?identityId=e70b7812-36cd-4e3b-a18f-7142f09052bf
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic zagor@gmail.com zagor
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: vMvakEtpTQuYWDoNIGeDOuBmB17KQMx4UWxgGOYS7Pwh3FSmhPO88npYL2q1YFluQUq3CtRUKmbycftVMA5TKNV3iMkY5GOQ
+
+{
+    "authority": "ADMIN",
+    "email": "burgvv@gmail.com",
+    "pass": "burgasvv",
+    "firstname": "Бургас",
+    "lastname": "Вячеслав",
+    "patronymic": "Васильевич"
+}
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: 289Jz76smCmW6OgcDWeFLxf-LaQgOE7468Jfutmxt7TVQPOG7qtxrofN-xy7iox5PEqxSyfJAJ1BC3jV3qNnib-Ggda2I8Sz
+
+{
+    "authority": "USER",
+    "email": "zagor@gmail.com",
+    "pass": "zagor",
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Сергеевич"
+}
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgvv@gmail.com burgasvv
+X-Csrf-Token: DX2RLgks___pIf0vtRqZ-Em19u61wcMyMfFECuyLBc3dP9nFOBmpTzBNnMrEQ5lKhDetnHmC29fU8vUfBJB8OYq8M6--XO7w
+
+{
+    "id": "37ccc10c-3c58-4a52-a986-be4a8a5f7e7d",
+    "email": "burgasvv@gmail.com"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=9823930a-6979-4868-a02f-dcb7aa4a39b5
+Host: localhost:9000
+Accept: application/json
