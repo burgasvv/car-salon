@@ -22,10 +22,10 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/identities/by-id?identityId=e70b7812-36cd-4e3b-a18f-7142f09052bf
+GET /api/v1/identities/by-id?identityId=37ccc10c-3c58-4a52-a986-be4a8a5f7e7d
 Host: localhost:9000
 Accept: application/json
-Authorization: Basic zagor@gmail.com zagor
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
 POST /api/v1/identities/create
@@ -76,3 +76,18 @@ X-Csrf-Token: DX2RLgks___pIf0vtRqZ-Em19u61wcMyMfFECuyLBc3dP9nFOBmpTzBNnMrEQ5lKhD
 DELETE /api/v1/identities/delete?identityId=9823930a-6979-4868-a02f-dcb7aa4a39b5
 Host: localhost:9000
 Accept: application/json
+
+###
+PUT /api/v1/identities/change-password?identityId=37ccc10c-3c58-4a52-a986-be4a8a5f7e7d&newPassword=burgasvv
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv111
+X-Csrf-Token: xG-qfN_paVzJAw9AT2EPyHNiInXpzHHHalz3-T6REOgNAWPxp1eYTeePXWrkO2p3Lkw7qkUED0zcrRfqXjnHzFqldtk9MgGQ
+
+###
+DELETE /api/v1/identities/remove-images?identityId=37ccc10c-3c58-4a52-a986-be4a8a5f7e7d
+    &mediaId=6332345d-3848-4dc5-889b-d79022ababf0&mediaId=348d5f40-9159-487d-81b5-21573b369557
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: zBhIyOaSUZyf7E-hgodlveFTP3WZg6SdBJWwIBDsL4C8hi-L_nopqoWjZqiyiHyVtqpR29hiEk39scWwPffWFSCPSeGK4xe6

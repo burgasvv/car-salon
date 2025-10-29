@@ -1,5 +1,6 @@
 package org.burgas.carsalon.router
 
+import jakarta.servlet.http.Part
 import org.burgas.carsalon.dto.identity.IdentityRequest
 import org.burgas.carsalon.entity.identity.Identity
 import org.burgas.carsalon.exception.IdentityNotAuthenticatedException
@@ -13,7 +14,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.body
 import org.springframework.web.servlet.function.router
-import java.util.UUID
+import java.util.*
 
 @Configuration
 class IdentityRouter : Router<IdentityService> {
@@ -30,7 +31,10 @@ class IdentityRouter : Router<IdentityService> {
         filter { request, function ->
             if (
                 request.path().equals("/api/v1/identities/by-id", false) ||
-                request.path().equals("/api/v1/identities/delete", false)
+                request.path().equals("/api/v1/identities/delete", false) ||
+                request.path().equals("/api/v1/identities/change-password", false) ||
+                request.path().equals("/api/v1/identities/add-images", false) ||
+                request.path().equals("/api/v1/identities/remove-images", false)
             ) {
                 val authentication = request.principal().orElseThrow() as Authentication
                 if (authentication.isAuthenticated) {
@@ -112,6 +116,30 @@ class IdentityRouter : Router<IdentityService> {
 
         DELETE("/api/v1/identities/delete") { request ->
             service.delete(UUID.fromString(request.param("identityId").orElseThrow()))
+            ServerResponse.noContent().build()
+        }
+
+        PUT("/api/v1/identities/change-password") {
+            service.changePassword(
+                UUID.fromString(it.param("identityId").orElseThrow()),
+                it.param("newPassword").orElseThrow()
+            )
+            ServerResponse.noContent().build()
+        }
+
+        POST("/api/v1/identities/add-images") {
+            service.addImages(
+                UUID.fromString(it.param("identityId").orElseThrow()),
+                it.multipartData()["media"] as List<Part>
+            )
+            ServerResponse.noContent().build()
+        }
+
+        DELETE("/api/v1/identities/remove-images") {
+            val identityId = UUID.fromString(it.param("identityId").orElseThrow())
+            val mediaIds = it.servletRequest().getParameterValues("mediaId")
+                .map { string -> UUID.fromString(string) }
+            service.removeImages(identityId, mediaIds)
             ServerResponse.noContent().build()
         }
 

@@ -6,8 +6,11 @@ import org.burgas.carsalon.repository.IdentityRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 class CustomUserDetailsService : UserDetailsService {
 
     private final val identityRepository: IdentityRepository

@@ -55,8 +55,8 @@ class SecurityConfig {
                     .permitAll()
 
                     .requestMatchers(
-                        "/api/v1/identities/by-id",
-                        "/api/v1/identities/update", "/api/v1/identities/delete"
+                        "/api/v1/identities/by-id", "/api/v1/identities/update", "/api/v1/identities/delete",
+                        "/api/v1/identities/change-password", "/api/v1/identities/add-images", "/api/v1/identities/remove-images"
                     )
                     .hasAnyAuthority(ADMIN.authority, USER.authority)
 

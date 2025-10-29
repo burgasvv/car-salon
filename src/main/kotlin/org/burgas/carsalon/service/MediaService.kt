@@ -1,8 +1,6 @@
 package org.burgas.carsalon.service
 
 import jakarta.servlet.http.Part
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.burgas.carsalon.entity.media.Media
 import org.burgas.carsalon.exception.MediaNotFoundException
 import org.burgas.carsalon.message.MediaMessages
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
