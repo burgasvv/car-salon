@@ -10,7 +10,6 @@ import org.burgas.carsalon.exception.IdentityNotFoundException
 import org.burgas.carsalon.exception.PasswordMatchedException
 import org.burgas.carsalon.mapper.IdentityMapper
 import org.burgas.carsalon.message.IdentityMessages
-import org.burgas.carsalon.repository.IdentityRepository
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
