@@ -28,7 +28,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                     this.id = identity.id
                     this.authority = request.authority ?: identity.authority
                     this.email = request.email ?: identity.email
-                    this.pass = identity.pass
+                    this.password = identity.password
                     this.enabled = identity.enabled
                     this.firstname = request.firstname ?: identity.firstname
                     this.lastname = request.lastname ?: identity.lastname
@@ -36,11 +36,11 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 }
             }
             .orElseGet {
-                val password = request.pass ?: throw IllegalArgumentException("No password specified.")
+                val password = request.password ?: throw IllegalArgumentException("No password specified.")
                 Identity().apply {
                     this.authority = request.authority ?: throw IllegalArgumentException("No authority specified.")
                     this.email = request.email ?: throw IllegalArgumentException("No email specified.")
-                    this.pass = passwordEncoder.encode(password)
+                    this.password = passwordEncoder.encode(password)
                     this.enabled = true
                     this.firstname = request.firstname ?: throw IllegalArgumentException("No first name specified.")
                     this.lastname = request.lastname ?: throw IllegalArgumentException("No last name specified.")
@@ -54,8 +54,6 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
             id = entity.id,
             authority = entity.authority,
             email = entity.email,
-            pass = entity.pass,
-            enabled = entity.enabled,
             firstname = entity.firstname,
             lastname = entity.lastname,
             patronymic = entity.patronymic
@@ -67,8 +65,6 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
             id = entity.id,
             authority = entity.authority,
             email = entity.email,
-            pass = entity.pass,
-            enabled = entity.enabled,
             firstname = entity.firstname,
             lastname = entity.lastname,
             patronymic = entity.patronymic,

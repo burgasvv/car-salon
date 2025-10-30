@@ -3,8 +3,6 @@ package org.burgas.carsalon.entity.identity
 import jakarta.persistence.*
 import org.burgas.carsalon.entity.BaseEntity
 import org.burgas.carsalon.entity.media.Media
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
 @Entity
@@ -15,7 +13,7 @@ import java.util.*
         NamedAttributeNode(value = "media")
     ]
 )
-class Identity : BaseEntity, UserDetails {
+class Identity : BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,8 +27,8 @@ class Identity : BaseEntity, UserDetails {
     @Column(name = "email", unique = true, nullable = false)
     lateinit var email: String
 
-    @Column(name = "pass", nullable = false)
-    lateinit var pass: String
+    @Column(name = "password", nullable = false)
+    lateinit var password: String
 
     @Column(name = "enabled", nullable = false)
     var enabled: Boolean = true
@@ -57,43 +55,4 @@ class Identity : BaseEntity, UserDetails {
     var media: MutableList<Media> = mutableListOf()
 
     constructor()
-
-    @Suppress("unused")
-    constructor(
-        id: UUID,
-        authority: Authority,
-        email: String,
-        pass: String,
-        enabled: Boolean,
-        firstname: String,
-        lastname: String,
-        patronymic: String,
-        media: MutableList<Media>
-    ) {
-        this.id = id
-        this.authority = authority
-        this.email = email
-        this.pass = pass
-        this.enabled = enabled
-        this.firstname = firstname
-        this.lastname = lastname
-        this.patronymic = patronymic
-        this.media = media
-    }
-
-    override fun getAuthorities(): Collection<GrantedAuthority?>? {
-        return listOf(authority)
-    }
-
-    override fun getPassword(): String? {
-        return this.pass
-    }
-
-    override fun getUsername(): String? {
-        return this.email
-    }
-
-    override fun isEnabled(): Boolean {
-        return this.enabled || !super.isEnabled()
-    }
 }

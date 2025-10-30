@@ -1,5 +1,6 @@
 package org.burgas.carsalon.service
 
+import org.burgas.carsalon.entity.identity.IdentityDetails
 import org.burgas.carsalon.exception.IdentityNotFoundException
 import org.burgas.carsalon.message.IdentityMessages
 import org.burgas.carsalon.repository.IdentityRepository
@@ -20,7 +21,9 @@ class CustomUserDetailsService : UserDetailsService {
     }
 
     override fun loadUserByUsername(username: String): UserDetails {
-        return this.identityRepository.findByEmail(username)
+        val identity = this.identityRepository.findByEmail(username)
             .orElseThrow { throw IdentityNotFoundException(IdentityMessages.IDENTITY_NOT_FOUND.message) }
+
+        return IdentityDetails(identity)
     }
 }

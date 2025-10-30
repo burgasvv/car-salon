@@ -2,7 +2,8 @@ package org.burgas.carsalon.router
 
 import jakarta.servlet.http.Part
 import org.burgas.carsalon.dto.identity.IdentityRequest
-import org.burgas.carsalon.entity.identity.Identity
+import org.burgas.carsalon.entity.identity.Authority
+import org.burgas.carsalon.entity.identity.IdentityDetails
 import org.burgas.carsalon.exception.IdentityNotAuthenticatedException
 import org.burgas.carsalon.exception.IdentityNotAuthorizedException
 import org.burgas.carsalon.service.IdentityService
@@ -37,12 +38,13 @@ class IdentityRouter : Router<IdentityService> {
                 request.path().equals("/api/v1/identities/remove-images", false)
             ) {
                 val authentication = request.principal().orElseThrow() as Authentication
+
                 if (authentication.isAuthenticated) {
-                    val identity = authentication.principal as Identity
+                    val identityDetails = authentication.principal as IdentityDetails
                     val identityIdParam = request.param("identityId").orElseThrow()
                     val identityId = UUID.fromString(identityIdParam)
 
-                    if (identity.id == identityId) {
+                    if (identityDetails.identity.id == identityId) {
                         return@filter function(request)
 
                     } else {
@@ -59,12 +61,32 @@ class IdentityRouter : Router<IdentityService> {
                 val authentication = request.principal().orElseThrow() as Authentication
 
                 if (authentication.isAuthenticated) {
-                    val identity = authentication.principal as Identity
+                    val identityDetails = authentication.principal as IdentityDetails
                     val identityRequest = request.body<IdentityRequest>()
                     val identityId = identityRequest.id ?: throw IdentityNotAuthorizedException("Identity Not Authorized")
 
-                    if (identity.id == identityId) {
+                    if (identityDetails.identity.id == identityId) {
                         request.attributes()["identityRequest"] = identityRequest
+                        return@filter function(request)
+
+                    } else {
+                        throw IdentityNotAuthorizedException("Identity Not Authorized")
+                    }
+
+                } else {
+                    throw IdentityNotAuthenticatedException("User is not authenticated")
+                }
+            } else if (
+                request.path().equals("/api/v1/identities/enable-disable", false)
+            ) {
+                val authentication = request.principal().orElseThrow() as Authentication
+
+                if (authentication.isAuthenticated) {
+                    val identityDetails = authentication.principal as IdentityDetails
+                    val identityIdParam = request.param("identityId").orElseThrow()
+                    val identityId = UUID.fromString(identityIdParam)
+
+                    if (identityDetails.identity.id != identityId && identityDetails.identity.authority == Authority.ADMIN) {
                         return@filter function(request)
 
                     } else {
@@ -140,6 +162,14 @@ class IdentityRouter : Router<IdentityService> {
             val mediaIds = it.servletRequest().getParameterValues("mediaId")
                 .map { string -> UUID.fromString(string) }
             service.removeImages(identityId, mediaIds)
+            ServerResponse.noContent().build()
+        }
+
+        PUT("/api/v1/identities/enable-disable") {
+            service.enableOrDisable(
+                UUID.fromString(it.param("identityId").orElseThrow()),
+                it.param("flag").orElseThrow().toBoolean()
+            )
             ServerResponse.noContent().build()
         }
 

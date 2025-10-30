@@ -5,6 +5,7 @@ import org.burgas.carsalon.dto.identity.IdentityFullResponse
 import org.burgas.carsalon.dto.identity.IdentityRequest
 import org.burgas.carsalon.dto.identity.IdentityShortResponse
 import org.burgas.carsalon.entity.identity.Identity
+import org.burgas.carsalon.exception.IdentityMatchedFlagException
 import org.burgas.carsalon.exception.IdentityNotFoundException
 import org.burgas.carsalon.exception.PasswordMatchedException
 import org.burgas.carsalon.mapper.IdentityMapper
@@ -93,11 +94,11 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
     )
     fun changePassword(identityId: UUID, newPassword: String) {
         val identity = this.findEntity(identityId)
-        if (this.passwordEncoder.matches(newPassword, identity.pass)) {
+        if (this.passwordEncoder.matches(newPassword, identity.password)) {
             throw PasswordMatchedException(IdentityMessages.PASSWORD_MATCHED.message)
         }
         identity.apply {
-            this.pass = passwordEncoder.encode(newPassword)
+            this.password = passwordEncoder.encode(newPassword)
         }
     }
 
@@ -124,6 +125,22 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         mediaIds.forEach { mediaId ->
             identity.media.removeIf { media -> mediaId == media.id }
             mediaService.delete(mediaId)
+        }
+    }
+
+    @CacheEvict(value = ["identityFullResponse"], key = "#identityId")
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
+        rollbackFor = [RuntimeException::class, Throwable::class]
+    )
+    fun enableOrDisable(identityId: UUID, flag: Boolean) {
+        val identity = this.findEntity(identityId)
+        if (identity.enabled != flag) {
+            identity.apply {
+                this.enabled = flag
+            }
+        } else {
+            throw IdentityMatchedFlagException(IdentityMessages.MATCHED_FLAG.message)
         }
     }
 }

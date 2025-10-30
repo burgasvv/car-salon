@@ -22,7 +22,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/identities/by-id?identityId=37ccc10c-3c58-4a52-a986-be4a8a5f7e7d
+GET /api/v1/identities/by-id?identityId=5d98dcab-673d-4c57-8fbf-64db6d462a31
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
@@ -32,12 +32,12 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: vMvakEtpTQuYWDoNIGeDOuBmB17KQMx4UWxgGOYS7Pwh3FSmhPO88npYL2q1YFluQUq3CtRUKmbycftVMA5TKNV3iMkY5GOQ
+X-Csrf-Token: 9L0pg6rOuD8UcVFyDkkBNholDoWlJZ0w6Coi2Gb2J9HOqrOQlY5L4ZP_2lo5QTAQOGQ1DnxBI73DFaQd30tAuVOXEeP9noeg
 
 {
     "authority": "ADMIN",
-    "email": "burgvv@gmail.com",
-    "pass": "burgasvv",
+    "email": "burgasvv@gmail.com",
+    "password": "burgasvv",
     "firstname": "Бургас",
     "lastname": "Вячеслав",
     "patronymic": "Васильевич"
@@ -48,12 +48,12 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: 289Jz76smCmW6OgcDWeFLxf-LaQgOE7468Jfutmxt7TVQPOG7qtxrofN-xy7iox5PEqxSyfJAJ1BC3jV3qNnib-Ggda2I8Sz
+X-Csrf-Token: 9L0pg6rOuD8UcVFyDkkBNholDoWlJZ0w6Coi2Gb2J9HOqrOQlY5L4ZP_2lo5QTAQOGQ1DnxBI73DFaQd30tAuVOXEeP9noeg
 
 {
     "authority": "USER",
     "email": "zagor@gmail.com",
-    "pass": "zagor",
+    "password": "zagor",
     "firstname": "Загорулько",
     "lastname": "Борис",
     "patronymic": "Сергеевич"
@@ -91,3 +91,10 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: zBhIyOaSUZyf7E-hgodlveFTP3WZg6SdBJWwIBDsL4C8hi-L_nopqoWjZqiyiHyVtqpR29hiEk39scWwPffWFSCPSeGK4xe6
+
+###
+PUT /api/v1/identities/enable-disable?identityId=e70b7812-36cd-4e3b-a18f-7142f09052bf&flag=true
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: Xeo8sGa-Ng2V4nY2afE9_GcE1rdjPGKvWH4RZ4vjDvyeDudXPNle0l-PVGi40hdUX9wJxAFg-48FDFuCbx9zBr6COM6tOtNn

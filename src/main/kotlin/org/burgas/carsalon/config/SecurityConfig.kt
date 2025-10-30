@@ -61,7 +61,7 @@ class SecurityConfig {
                     .hasAnyAuthority(ADMIN.authority, USER.authority)
 
                     .requestMatchers(
-                        "/api/v1/identities"
+                        "/api/v1/identities", "/api/v1/identities/enable-disable"
                     )
                     .hasAnyAuthority(ADMIN.authority)
             }

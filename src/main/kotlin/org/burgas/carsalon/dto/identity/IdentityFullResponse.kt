@@ -9,8 +9,6 @@ data class IdentityFullResponse(
     override val id: UUID?,
     val authority: Authority?,
     val email: String?,
-    val pass: String?,
-    val enabled: Boolean?,
     val firstname: String?,
     val lastname: String?,
     val patronymic: String?,

@@ -8,7 +8,7 @@ data class IdentityRequest(
     override val id: UUID?,
     val authority: Authority?,
     val email: String?,
-    val pass: String?,
+    val password: String?,
     val enabled: Boolean?,
     val firstname: String?,
     val lastname: String?,
