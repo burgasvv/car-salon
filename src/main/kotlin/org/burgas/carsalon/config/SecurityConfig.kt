@@ -53,6 +53,8 @@ class SecurityConfig {
                         "/api/v1/identities/create",
 
                         "/api/v1/brands", "/api/v1/brands/by-id",
+
+                        "/api/v1/cars", "/api/v1/cars/by-id"
                     )
                     .permitAll()
 
@@ -66,6 +68,8 @@ class SecurityConfig {
                         "/api/v1/identities", "/api/v1/identities/enable-disable",
 
                         "/api/v1/brands/create", "/api/v1/brands/update", "/api/v1/brands/delete",
+
+                        "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete"
                     )
                     .hasAnyAuthority(ADMIN.authority)
             }

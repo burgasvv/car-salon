@@ -5,6 +5,7 @@ import org.burgas.carsalon.dto.brand.BrandRequest
 import org.burgas.carsalon.dto.brand.BrandShortResponse
 import org.burgas.carsalon.entity.brand.Brand
 import org.burgas.carsalon.repository.BrandRepository
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Component
 import java.util.UUID
 
@@ -12,9 +13,15 @@ import java.util.UUID
 class BrandMapper : EntityMapper<BrandRequest, Brand, BrandShortResponse, BrandFullResponse> {
 
     final val brandRepository: BrandRepository
+    private final val carMapperObjectFactory: ObjectFactory<CarMapper>
 
-    constructor(brandRepository: BrandRepository) {
+    private fun getCarMapper(): CarMapper {
+        return this.carMapperObjectFactory.`object`
+    }
+
+    constructor(brandRepository: BrandRepository, carMapperObjectFactory: ObjectFactory<CarMapper>) {
         this.brandRepository = brandRepository
+        this.carMapperObjectFactory = carMapperObjectFactory
     }
 
     override fun toEntity(request: BrandRequest): Brand {
@@ -47,7 +54,8 @@ class BrandMapper : EntityMapper<BrandRequest, Brand, BrandShortResponse, BrandF
         return BrandFullResponse(
             id = entity.id,
             name = entity.name,
-            description = entity.description
+            description = entity.description,
+            cars = entity.cars.map { this.getCarMapper().toShortResponse(it) }
         )
     }
 }

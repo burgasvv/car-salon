@@ -2,6 +2,7 @@ package org.burgas.carsalon.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.burgas.carsalon.dto.brand.BrandFullResponse
+import org.burgas.carsalon.dto.car.CarFullResponse
 import org.burgas.carsalon.dto.identity.IdentityFullResponse
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
@@ -48,6 +49,25 @@ class RedisConfig {
         val keyRedisSerializer = StringRedisSerializer()
         val jsonValueRedisSerializer = Jackson2JsonRedisSerializer(
             objectMapper, BrandFullResponse::class.java
+        )
+        val redisCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keyRedisSerializer))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonValueRedisSerializer))
+
+        return RedisCacheManager.builder(redisConnectionFactory)
+            .cacheDefaults(redisCacheConfig)
+            .transactionAware()
+            .build()
+    }
+
+    @Bean
+    fun carCacheManager(
+        redisConnectionFactory: RedisConnectionFactory,
+        objectMapper: ObjectMapper
+    ) : CacheManager {
+        val keyRedisSerializer = StringRedisSerializer()
+        val jsonValueRedisSerializer = Jackson2JsonRedisSerializer(
+            objectMapper, CarFullResponse::class.java
         )
         val redisCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keyRedisSerializer))

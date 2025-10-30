@@ -147,3 +147,49 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: e3xfxT6TgUJQZKVctNNjfIsJc7fIRv185blOx0wCvzHAy5vQHk47oAulsXB9AsA-0f5XTr1rXo_4cc1RhIotonxkiAP1-P-1
+
+
+
+### Car Requests
+
+
+
+###
+GET /api/v1/cars/by-id?carId=d39a3a22-ddae-4fc1-b432-5c19fbb8453c
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/cars/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: X5W6UofaTAjA9MpBCE-w86HGhnpErfFFllaxrdfBzgiS66CHOaPea7PqLzztzfhxamKElsCnq0N3zMFoozOHm-_0-W7z3Za-
+
+{
+    "brandId": "9fb18e6c-213e-44d7-a8bb-240ce5249aa3",
+    "model": "DB9",
+    "characteristics": "Характеристики автомобиля модели DB9 2020 года",
+    "rentPrice": 2500.0
+}
+
+###
+PUT /api/v1/cars/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: UDGcqXXBzv5A1cPfAuzKVaYIYqYju60tV9rUTb5TVPv5f_TwNgf4kEHxrcpt7PHvYMH-MMdpT58Q2p0AYr_ie4ZmY52YScLJ
+
+{
+    "id": "d39a3a22-ddae-4fc1-b432-5c19fbb8453c",
+    "model": "DB9-Coupe"
+}
+
+###
+DELETE /api/v1/cars/delete?carId=d39a3a22-ddae-4fc1-b432-5c19fbb8453c
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: UDGcqXXBzv5A1cPfAuzKVaYIYqYju60tV9rUTb5TVPv5f_TwNgf4kEHxrcpt7PHvYMH-MMdpT58Q2p0AYr_ie4ZmY52YScLJ
