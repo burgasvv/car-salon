@@ -98,3 +98,52 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: Xeo8sGa-Ng2V4nY2afE9_GcE1rdjPGKvWH4RZ4vjDvyeDudXPNle0l-PVGi40hdUX9wJxAFg-48FDFuCbx9zBr6COM6tOtNn
+
+
+
+### Brand Requests
+
+
+
+###
+GET /api/v1/brands
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/brands/by-id?brandId=9fb18e6c-213e-44d7-a8bb-240ce5249aa3
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/brands/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: afDfuzz3k6novMcv-3tPEepZg9SxzYVSvxp9JL9NccNe6cN2DMK73gnBo5vF2qJNnlZ7I9w7ruyB-rV_3ikeQY8rRvFr2qcT
+
+{
+    "name": "Pagani",
+    "description": "Описание и год создания бренда Pagani"
+}
+
+###
+PUT /api/v1/brands/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: a-CJwDornzzrqWx5UZUbZhO2OJjRw4zFFzhFt0SIfGXYnZvPDtLtpQ8drw7GzwkbNLgvVCXUFaDh9Lzodgsm0nTuS1ftrv-q
+
+{
+    "id": "50b6537a-7ff7-44e0-9421-2f8751898d67",
+    "description": "Описание и год создания бренда автомобилей Pagani"
+}
+
+###
+DELETE /api/v1/brands/delete?brandId=50b6537a-7ff7-44e0-9421-2f8751898d67
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: e3xfxT6TgUJQZKVctNNjfIsJc7fIRv185blOx0wCvzHAy5vQHk47oAulsXB9AsA-0f5XTr1rXo_4cc1RhIotonxkiAP1-P-1

@@ -11,6 +11,7 @@ import org.burgas.carsalon.exception.PasswordMatchedException
 import org.burgas.carsalon.mapper.IdentityMapper
 import org.burgas.carsalon.message.IdentityMessages
 import org.burgas.carsalon.repository.IdentityRepository
+import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -22,32 +23,27 @@ import java.util.*
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+@CacheConfig(cacheManager = "identityCacheManager")
 class IdentityService : BaseService, CrudService<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
-    private final val identityRepository: IdentityRepository
     private final val identityMapper: IdentityMapper
     private final val passwordEncoder: PasswordEncoder
     private final val mediaService: MediaService
 
-    constructor(
-        identityRepository: IdentityRepository,
-        identityMapper: IdentityMapper,
-        passwordEncoder: PasswordEncoder,
-        mediaService: MediaService
-    ) {
-        this.identityRepository = identityRepository
+    constructor(identityMapper: IdentityMapper, passwordEncoder: PasswordEncoder, mediaService: MediaService) {
         this.identityMapper = identityMapper
         this.passwordEncoder = passwordEncoder
         this.mediaService = mediaService
     }
 
+
     override fun findEntity(id: UUID): Identity {
-        return this.identityRepository.findById(id)
+        return this.identityMapper.identityRepository.findById(id)
             .orElseThrow { throw IdentityNotFoundException(IdentityMessages.IDENTITY_NOT_FOUND.message) }
     }
 
     override fun findAll(): List<IdentityShortResponse> {
-        return this.identityRepository.findAll()
+        return this.identityMapper.identityRepository.findAll()
             .map { identity -> this.identityMapper.toShortResponse(identity) }
     }
 
@@ -62,7 +58,7 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
     )
     override fun create(request: IdentityRequest): IdentityFullResponse {
         return this.identityMapper.toFullResponse(
-            this.identityRepository.save(this.identityMapper.toEntity(request))
+            this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
         )
     }
 
@@ -73,7 +69,7 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
     )
     override fun update(request: IdentityRequest): IdentityFullResponse {
         return this.identityMapper.toFullResponse(
-            this.identityRepository.save(this.identityMapper.toEntity(request))
+            this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
         )
     }
 
@@ -84,7 +80,7 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
     )
     override fun delete(id: UUID) {
         val entity = this.findEntity(id)
-        this.identityRepository.delete(entity)
+        this.identityMapper.identityRepository.delete(entity)
     }
 
     @CacheEvict(value = ["identityFullResponse"], key = "#identityId")

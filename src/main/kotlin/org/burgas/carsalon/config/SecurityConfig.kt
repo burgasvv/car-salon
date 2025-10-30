@@ -50,7 +50,9 @@ class SecurityConfig {
 
                         "/api/v1/media/by-id", "/api/v1/media/create", "/api/v1/media/change", "/api/v1/media/delete",
 
-                        "/api/v1/identities/create"
+                        "/api/v1/identities/create",
+
+                        "/api/v1/brands", "/api/v1/brands/by-id",
                     )
                     .permitAll()
 
@@ -61,7 +63,9 @@ class SecurityConfig {
                     .hasAnyAuthority(ADMIN.authority, USER.authority)
 
                     .requestMatchers(
-                        "/api/v1/identities", "/api/v1/identities/enable-disable"
+                        "/api/v1/identities", "/api/v1/identities/enable-disable",
+
+                        "/api/v1/brands/create", "/api/v1/brands/update", "/api/v1/brands/delete",
                     )
                     .hasAnyAuthority(ADMIN.authority)
             }

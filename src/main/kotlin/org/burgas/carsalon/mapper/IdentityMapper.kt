@@ -12,7 +12,7 @@ import java.util.UUID
 @Component
 class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
-    private final val identityRepository: IdentityRepository
+    final val identityRepository: IdentityRepository
     private final val passwordEncoder: PasswordEncoder
 
     constructor(identityRepository: IdentityRepository, passwordEncoder: PasswordEncoder) {
