@@ -10,10 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.burgas</groupId>
-    <artifactId>car-salon</artifactId>
+    <artifactId>car-rental</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>car-salon</name>
-    <description>car-salon</description>
+    <name>car-rental</name>
+    <description>car-rental</description>
     <url/>
     <licenses>
         <license/>
