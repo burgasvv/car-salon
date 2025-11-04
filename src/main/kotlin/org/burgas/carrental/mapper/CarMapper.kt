@@ -66,7 +66,8 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
         model = entity.model,
         characteristics = entity.characteristics,
         rentPrice = entity.rentPrice,
-        free = entity.free
+        free = entity.free,
+        media = entity.media
     )
 
     override fun toFullResponse(entity: Car): CarFullResponse = CarFullResponse(

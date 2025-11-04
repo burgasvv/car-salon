@@ -62,7 +62,8 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
         email = entity.email,
         firstname = entity.firstname,
         lastname = entity.lastname,
-        patronymic = entity.patronymic
+        patronymic = entity.patronymic,
+        media = entity.media
     )
 
     override fun toFullResponse(entity: Identity): IdentityFullResponse = IdentityFullResponse(
