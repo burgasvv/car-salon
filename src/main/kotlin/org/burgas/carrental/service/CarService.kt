@@ -1,5 +1,6 @@
 package org.burgas.carrental.service
 
+import jakarta.servlet.http.Part
 import org.burgas.carrental.dto.car.CarFullResponse
 import org.burgas.carrental.dto.car.CarRequest
 import org.burgas.carrental.dto.car.CarShortResponse
@@ -22,9 +23,11 @@ import java.util.*
 class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, CarFullResponse> {
 
     private final val carMapper: CarMapper
+    private final val mediaService: MediaService
 
-    constructor(carMapper: CarMapper) {
+    constructor(carMapper: CarMapper, mediaService1: MediaService) {
         this.carMapper = carMapper
+        this.mediaService = mediaService1
     }
 
     override fun findEntity(id: UUID): Car {
@@ -43,7 +46,7 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     }
 
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
@@ -54,7 +57,7 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     }
 
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
@@ -66,7 +69,7 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     }
 
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
@@ -74,5 +77,33 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     override fun delete(id: UUID) {
         val car = this.findEntity(id)
         this.carMapper.carRepository.delete(car)
+    }
+
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        propagation = Propagation.REQUIRED,
+        rollbackFor = [Throwable::class, RuntimeException::class]
+    )
+    @CacheEvict(value = ["carFullResponse"], key = "#carId")
+    fun addImages(carId: UUID, parts: List<Part>) {
+        val car = this.findEntity(carId)
+        parts.forEach {
+            val media = this.mediaService.create(it)
+            car.media.add(media)
+        }
+    }
+
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        propagation = Propagation.REQUIRED,
+        rollbackFor = [Throwable::class, RuntimeException::class]
+    )
+    @CacheEvict(value = ["carFullResponse"], key = "#carId")
+    fun removeImages(carId: UUID, mediaIds: List<UUID>) {
+        val car = this.findEntity(carId)
+        mediaIds.forEach { mediaId ->
+            car.media.removeIf { media -> media.id == mediaId }
+            this.mediaService.delete(mediaId)
+        }
     }
 }

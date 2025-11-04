@@ -43,7 +43,7 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
     }
 
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
@@ -55,7 +55,7 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
 
     @CacheEvict(value = ["brandFullResponse"], key = "#request.id")
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
@@ -67,7 +67,7 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
 
     @CacheEvict(value = ["brandFullResponse"], key = "#id")
     @Transactional(
-        isolation = Isolation.REPEATABLE_READ,
+        isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )

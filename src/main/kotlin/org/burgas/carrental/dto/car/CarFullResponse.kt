@@ -2,6 +2,7 @@ package org.burgas.carrental.dto.car
 
 import org.burgas.carrental.dto.Response
 import org.burgas.carrental.dto.brand.BrandShortResponse
+import org.burgas.carrental.entity.media.Media
 import java.util.UUID
 
 data class CarFullResponse(
@@ -9,5 +10,6 @@ data class CarFullResponse(
     val brand: BrandShortResponse?,
     val model: String?,
     val characteristics: String?,
-    val rentPrice: Double?
+    val rentPrice: Double?,
+    val media: List<Media>
 ) : Response

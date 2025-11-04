@@ -1,5 +1,6 @@
 package org.burgas.carrental.router
 
+import jakarta.servlet.http.Part
 import org.burgas.carrental.dto.car.CarRequest
 import org.burgas.carrental.service.CarService
 import org.springframework.context.annotation.Bean
@@ -46,6 +47,25 @@ class CarRouter : Router<CarService> {
         DELETE("/api/v1/cars/delete") {
             ServerResponse.ok().body(
                 service.delete(UUID.fromString(it.param("carId").orElseThrow()))
+            )
+        }
+
+        POST("/api/v1/cars/add-images") {
+            ServerResponse.ok().body(
+                service.addImages(
+                    UUID.fromString(it.param("carId").orElseThrow()),
+                    it.multipartData()["media"] as List<Part>
+                )
+            )
+        }
+
+        DELETE("/api/v1/cars/remove-images") {
+            val mediaIds = it.servletRequest().getParameterValues("mediaId")
+                .map { mediaId -> UUID.fromString(mediaId) }
+            ServerResponse.ok().body(
+                service.removeImages(
+                    UUID.fromString(it.param("carId").orElseThrow()), mediaIds
+                )
             )
         }
 

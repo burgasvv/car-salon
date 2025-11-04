@@ -7,12 +7,15 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.JoinTable
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.NamedAttributeNode
 import jakarta.persistence.NamedEntityGraph
 import jakarta.persistence.Table
 import org.burgas.carrental.entity.BaseEntity
 import org.burgas.carrental.entity.brand.Brand
+import org.burgas.carrental.entity.media.Media
 import java.util.UUID
 
 @Entity
@@ -42,6 +45,14 @@ class Car : BaseEntity {
 
     @Column(name = "rent_price", nullable = false)
     var rentPrice: Double = 0.0
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "car_media",
+        joinColumns = [JoinColumn(name = "car_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "media_id", referencedColumnName = "id")]
+    )
+    var media: MutableList<Media> = mutableListOf()
 
     constructor()
 

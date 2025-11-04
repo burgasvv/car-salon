@@ -75,7 +75,8 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
                 .orElse(null),
             model = entity.model,
             characteristics = entity.characteristics,
-            rentPrice = entity.rentPrice
+            rentPrice = entity.rentPrice,
+            media = entity.media
         )
     }
 }

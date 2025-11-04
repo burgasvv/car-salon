@@ -69,7 +69,8 @@ class SecurityConfig {
 
                         "/api/v1/brands/create", "/api/v1/brands/update", "/api/v1/brands/delete",
 
-                        "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete"
+                        "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete",
+                        "/api/v1/cars/add-images", "/api/v1/cars/remove-images"
                     )
                     .hasAnyAuthority(ADMIN.authority)
             }
