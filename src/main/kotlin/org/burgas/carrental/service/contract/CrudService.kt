@@ -1,4 +1,4 @@
-package org.burgas.carrental.service
+package org.burgas.carrental.service.contract
 
 import org.burgas.carrental.dto.Request
 import org.burgas.carrental.dto.Response

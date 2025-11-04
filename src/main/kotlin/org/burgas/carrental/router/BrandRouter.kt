@@ -1,6 +1,7 @@
 package org.burgas.carrental.router
 
 import org.burgas.carrental.dto.brand.BrandRequest
+import org.burgas.carrental.router.contract.Router
 import org.burgas.carrental.service.BrandService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -16,7 +16,7 @@ class IdentityDetails : UserDetails {
     }
 
     override fun getPassword(): String {
-        return identity.password
+        return this.identity.password
     }
 
     override fun getUsername(): String {

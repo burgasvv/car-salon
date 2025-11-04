@@ -6,6 +6,7 @@ import org.burgas.carrental.entity.identity.Authority
 import org.burgas.carrental.entity.identity.IdentityDetails
 import org.burgas.carrental.exception.IdentityNotAuthenticatedException
 import org.burgas.carrental.exception.IdentityNotAuthorizedException
+import org.burgas.carrental.router.contract.Router
 import org.burgas.carrental.service.IdentityService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

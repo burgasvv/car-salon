@@ -23,7 +23,6 @@ class CustomUserDetailsService : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
         val identity = this.identityRepository.findByEmail(username)
             .orElseThrow { throw IdentityNotFoundException(IdentityMessages.IDENTITY_NOT_FOUND.message) }
-
         return IdentityDetails(identity)
     }
 }

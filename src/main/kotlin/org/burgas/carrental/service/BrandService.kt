@@ -7,6 +7,8 @@ import org.burgas.carrental.entity.brand.Brand
 import org.burgas.carrental.exception.BrandNotFoundException
 import org.burgas.carrental.mapper.BrandMapper
 import org.burgas.carrental.message.BrandMessages
+import org.burgas.carrental.service.contract.BaseService
+import org.burgas.carrental.service.contract.CrudService
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -27,31 +29,23 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
         this.brandMapper = brandMapper
     }
 
-    override fun findEntity(id: UUID): Brand {
-        return this.brandMapper.brandRepository.findById(id)
-            .orElseThrow { throw BrandNotFoundException(BrandMessages.BRAND_NOT_FOUND.message) }
-    }
+    override fun findEntity(id: UUID): Brand = this.brandMapper.brandRepository.findById(id)
+        .orElseThrow { throw BrandNotFoundException(BrandMessages.BRAND_NOT_FOUND.message) }
 
-    override fun findAll(): List<BrandShortResponse> {
-        return this.brandMapper.brandRepository.findAll()
-            .map { this.brandMapper.toShortResponse(it) }
-    }
+    override fun findAll(): List<BrandShortResponse> = this.brandMapper.brandRepository.findAll()
+        .map { this.brandMapper.toShortResponse(it) }
 
     @Cacheable(value = ["brandFullResponse"], key = "#id")
-    override fun findById(id: UUID): BrandFullResponse {
-        return this.brandMapper.toFullResponse(this.findEntity(id))
-    }
+    override fun findById(id: UUID): BrandFullResponse = this.brandMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    override fun create(request: BrandRequest): BrandFullResponse {
-        return this.brandMapper.toFullResponse(
-            this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
-        )
-    }
+    override fun create(request: BrandRequest): BrandFullResponse = this.brandMapper.toFullResponse(
+        this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
+    )
 
     @CacheEvict(value = ["brandFullResponse"], key = "#request.id")
     @Transactional(
@@ -59,11 +53,9 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    override fun update(request: BrandRequest): BrandFullResponse {
-        return this.brandMapper.toFullResponse(
-            this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
-        )
-    }
+    override fun update(request: BrandRequest): BrandFullResponse = this.brandMapper.toFullResponse(
+        this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
+    )
 
     @CacheEvict(value = ["brandFullResponse"], key = "#id")
     @Transactional(

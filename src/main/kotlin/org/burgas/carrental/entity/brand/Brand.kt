@@ -40,12 +40,4 @@ class Brand : BaseEntity {
     var cars: MutableList<Car> = mutableListOf()
 
     constructor()
-
-    @Suppress("unused")
-    constructor(id: UUID, name: String, description: String, cars: MutableList<Car>) {
-        this.id = id
-        this.name = name
-        this.description = description
-        this.cars = cars
-    }
 }

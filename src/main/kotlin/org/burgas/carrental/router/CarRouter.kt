@@ -2,6 +2,7 @@ package org.burgas.carrental.router
 
 import jakarta.servlet.http.Part
 import org.burgas.carrental.dto.car.CarRequest
+import org.burgas.carrental.router.contract.Router
 import org.burgas.carrental.service.CarService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

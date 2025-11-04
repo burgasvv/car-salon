@@ -12,10 +12,12 @@ import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.NamedAttributeNode
 import jakarta.persistence.NamedEntityGraph
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.burgas.carrental.entity.BaseEntity
 import org.burgas.carrental.entity.brand.Brand
 import org.burgas.carrental.entity.media.Media
+import org.burgas.carrental.entity.rent.Rent
 import java.util.UUID
 
 @Entity
@@ -54,14 +56,8 @@ class Car : BaseEntity {
     )
     var media: MutableList<Media> = mutableListOf()
 
-    constructor()
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    var rents: MutableList<Rent> = mutableListOf()
 
-    @Suppress("unused")
-    constructor(id: UUID, brand: Brand?, model: String, characteristics: String, rentPrice: Double) {
-        this.id = id
-        this.brand = brand
-        this.model = model
-        this.characteristics = characteristics
-        this.rentPrice = rentPrice
-    }
+    constructor()
 }

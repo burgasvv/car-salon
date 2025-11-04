@@ -3,6 +3,7 @@ package org.burgas.carrental.entity.identity
 import jakarta.persistence.*
 import org.burgas.carrental.entity.BaseEntity
 import org.burgas.carrental.entity.media.Media
+import org.burgas.carrental.entity.rent.Rent
 import java.util.*
 
 @Entity
@@ -10,7 +11,8 @@ import java.util.*
 @NamedEntityGraph(
     name = "identity-entity-graph",
     attributeNodes = [
-        NamedAttributeNode(value = "media")
+        NamedAttributeNode(value = "media"),
+        NamedAttributeNode(value = "rents"),
     ]
 )
 class Identity : BaseEntity {
@@ -41,6 +43,9 @@ class Identity : BaseEntity {
 
     @Column(name = "patronymic", nullable = false)
     lateinit var patronymic: String
+
+    @OneToMany(mappedBy = "identity", fetch = FetchType.LAZY)
+    var rents: MutableList<Rent> = mutableListOf()
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -10,6 +10,8 @@ import org.burgas.carrental.exception.IdentityNotFoundException
 import org.burgas.carrental.exception.PasswordMatchedException
 import org.burgas.carrental.mapper.IdentityMapper
 import org.burgas.carrental.message.IdentityMessages
+import org.burgas.carrental.service.contract.BaseService
+import org.burgas.carrental.service.contract.CrudService
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -35,42 +37,31 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         this.mediaService = mediaService
     }
 
+    override fun findEntity(id: UUID): Identity = this.identityMapper.identityRepository.findById(id)
+        .orElseThrow { throw IdentityNotFoundException(IdentityMessages.IDENTITY_NOT_FOUND.message) }
 
-    override fun findEntity(id: UUID): Identity {
-        return this.identityMapper.identityRepository.findById(id)
-            .orElseThrow { throw IdentityNotFoundException(IdentityMessages.IDENTITY_NOT_FOUND.message) }
-    }
-
-    override fun findAll(): List<IdentityShortResponse> {
-        return this.identityMapper.identityRepository.findAll()
-            .map { identity -> this.identityMapper.toShortResponse(identity) }
-    }
+    override fun findAll(): List<IdentityShortResponse> = this.identityMapper.identityRepository.findAll()
+        .map { identity -> this.identityMapper.toShortResponse(identity) }
 
     @Cacheable(value = ["identityFullResponse"], key = "#id")
-    override fun findById(id: UUID): IdentityFullResponse {
-        return this.identityMapper.toFullResponse(this.findEntity(id))
-    }
+    override fun findById(id: UUID): IdentityFullResponse = this.identityMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
     )
-    override fun create(request: IdentityRequest): IdentityFullResponse {
-        return this.identityMapper.toFullResponse(
-            this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
-        )
-    }
+    override fun create(request: IdentityRequest): IdentityFullResponse = this.identityMapper.toFullResponse(
+        this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
+    )
 
     @CacheEvict(value = ["identityFullResponse"], key = "#request.id")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
     )
-    override fun update(request: IdentityRequest): IdentityFullResponse {
-        return this.identityMapper.toFullResponse(
-            this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
-        )
-    }
+    override fun update(request: IdentityRequest): IdentityFullResponse = this.identityMapper.toFullResponse(
+        this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
+    )
 
     @CacheEvict(value = ["identityFullResponse"], key = "#id")
     @Transactional(

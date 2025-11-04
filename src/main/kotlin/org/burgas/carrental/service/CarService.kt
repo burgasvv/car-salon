@@ -8,6 +8,8 @@ import org.burgas.carrental.entity.car.Car
 import org.burgas.carrental.exception.CarNotFoundException
 import org.burgas.carrental.mapper.CarMapper
 import org.burgas.carrental.message.CarMessages
+import org.burgas.carrental.service.contract.BaseService
+import org.burgas.carrental.service.contract.CrudService
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -30,31 +32,23 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         this.mediaService = mediaService1
     }
 
-    override fun findEntity(id: UUID): Car {
-        return this.carMapper.carRepository.findById(id)
-            .orElseThrow { throw CarNotFoundException(CarMessages.CAR_NOT_FOUND.message) }
-    }
+    override fun findEntity(id: UUID): Car = this.carMapper.carRepository.findById(id)
+        .orElseThrow { throw CarNotFoundException(CarMessages.CAR_NOT_FOUND.message) }
 
-    override fun findAll(): List<CarShortResponse> {
-        return this.carMapper.carRepository.findAll()
-            .map { this.carMapper.toShortResponse(it) }
-    }
+    override fun findAll(): List<CarShortResponse> = this.carMapper.carRepository.findAll()
+        .map { this.carMapper.toShortResponse(it) }
 
     @Cacheable(value = ["carFullResponse"], key = "#id")
-    override fun findById(id: UUID): CarFullResponse {
-        return this.carMapper.toFullResponse(this.findEntity(id))
-    }
+    override fun findById(id: UUID): CarFullResponse = this.carMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    override fun create(request: CarRequest): CarFullResponse {
-        return this.carMapper.toFullResponse(
-            this.carMapper.carRepository.save(this.carMapper.toEntity(request))
-        )
-    }
+    override fun create(request: CarRequest): CarFullResponse = this.carMapper.toFullResponse(
+        this.carMapper.carRepository.save(this.carMapper.toEntity(request))
+    )
 
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
@@ -62,11 +56,9 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
     @CacheEvict(value = ["carFullResponse"], key = "#request.id")
-    override fun update(request: CarRequest): CarFullResponse {
-        return this.carMapper.toFullResponse(
-            this.carMapper.carRepository.save(this.carMapper.toEntity(request))
-        )
-    }
+    override fun update(request: CarRequest): CarFullResponse = this.carMapper.toFullResponse(
+        this.carMapper.carRepository.save(this.carMapper.toEntity(request))
+    )
 
     @Transactional(
         isolation = Isolation.READ_COMMITTED,

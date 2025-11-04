@@ -5,6 +5,7 @@ import org.burgas.carrental.entity.media.Media
 import org.burgas.carrental.exception.MediaNotFoundException
 import org.burgas.carrental.message.MediaMessages
 import org.burgas.carrental.repository.MediaRepository
+import org.burgas.carrental.service.contract.BaseService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
