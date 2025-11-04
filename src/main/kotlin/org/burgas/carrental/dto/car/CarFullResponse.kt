@@ -12,6 +12,7 @@ data class CarFullResponse(
     val model: String?,
     val characteristics: String?,
     val rentPrice: Double?,
+    val free: Boolean?,
     val rents: List<RentWithIdentityResponse>?,
-    val media: List<Media>
+    val media: List<Media>,
 ) : Response

@@ -48,6 +48,9 @@ class Car : BaseEntity {
     @Column(name = "rent_price", nullable = false)
     var rentPrice: Double = 0.0
 
+    @Column(name = "free", nullable = false)
+    var free: Boolean = true
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "car_media",

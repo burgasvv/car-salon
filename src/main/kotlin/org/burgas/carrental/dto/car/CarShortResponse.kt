@@ -9,5 +9,6 @@ data class CarShortResponse(
     val brand: BrandShortResponse?,
     val model: String?,
     val characteristics: String?,
-    val rentPrice: Double?
+    val rentPrice: Double?,
+    val free: Boolean?
 ) : Response

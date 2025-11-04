@@ -44,6 +44,7 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
                     this.model = request.model ?: it.model
                     this.characteristics = request.characteristics ?: it.characteristics
                     this.rentPrice = request.rentPrice ?: it.rentPrice
+                    this.free = request.free ?: it.free
                 }
             }
             .orElseGet {
@@ -53,6 +54,7 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
                     this.model = request.model ?: throw NullPointerException("Model is null")
                     this.characteristics = request.characteristics ?: throw NullPointerException("Characteristics is null")
                     this.rentPrice = request.rentPrice ?: throw NullPointerException("Rent Price is null")
+                    this.free = request.free ?: throw NullPointerException("Free is null")
                 }
             }
 
@@ -63,7 +65,8 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
             .orElse(null),
         model = entity.model,
         characteristics = entity.characteristics,
-        rentPrice = entity.rentPrice
+        rentPrice = entity.rentPrice,
+        free = entity.free
     )
 
     override fun toFullResponse(entity: Car): CarFullResponse = CarFullResponse(
@@ -74,6 +77,7 @@ class CarMapper : EntityMapper<CarRequest, Car, CarShortResponse, CarFullRespons
         model = entity.model,
         characteristics = entity.characteristics,
         rentPrice = entity.rentPrice,
+        free = entity.free,
         rents = entity.rents.map { this.getRentMapper().toRentWithIdentityResponse(it) },
         media = entity.media
     )

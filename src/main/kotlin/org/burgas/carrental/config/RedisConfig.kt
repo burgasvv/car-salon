@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.burgas.carrental.dto.brand.BrandFullResponse
 import org.burgas.carrental.dto.car.CarFullResponse
 import org.burgas.carrental.dto.identity.IdentityFullResponse
+import org.burgas.carrental.dto.rent.RentFullResponse
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
@@ -68,6 +69,25 @@ class RedisConfig {
         val keyRedisSerializer = StringRedisSerializer()
         val jsonValueRedisSerializer = Jackson2JsonRedisSerializer(
             objectMapper, CarFullResponse::class.java
+        )
+        val redisCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keyRedisSerializer))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonValueRedisSerializer))
+
+        return RedisCacheManager.builder(redisConnectionFactory)
+            .cacheDefaults(redisCacheConfig)
+            .transactionAware()
+            .build()
+    }
+
+    @Bean
+    fun rentCacheManager(
+        redisConnectionFactory: RedisConnectionFactory,
+        objectMapper: ObjectMapper
+    ) : CacheManager {
+        val keyRedisSerializer = StringRedisSerializer()
+        val jsonValueRedisSerializer = Jackson2JsonRedisSerializer(
+            objectMapper, RentFullResponse::class.java
         )
         val redisCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keyRedisSerializer))

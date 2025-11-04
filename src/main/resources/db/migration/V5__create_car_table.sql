@@ -4,5 +4,6 @@ create table if not exists car (
     brand_id uuid references brand(id) on delete set null on update cascade ,
     model varchar unique not null ,
     characteristics text not null ,
-    rent_price decimal not null default 0 check ( rent_price >= 0 )
+    rent_price decimal not null default 0 check ( rent_price >= 0 ) ,
+    free boolean not null
 )

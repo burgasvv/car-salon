@@ -8,5 +8,6 @@ data class CarRequest(
     val brandId: UUID?,
     val model: String?,
     val characteristics: String?,
-    val rentPrice: Double?
+    val rentPrice: Double?,
+    val free: Boolean?
 ) : Request
