@@ -36,44 +36,45 @@ class SecurityConfig {
     }
 
     @Bean
-    fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-        return httpSecurity
-            .cors { it.configurationSource(UrlBasedCorsConfigurationSource()) }
-            .csrf { it.csrfTokenRequestHandler(XorCsrfTokenRequestAttributeHandler()) }
-            .httpBasic { it.securityContextRepository(RequestAttributeSecurityContextRepository()) }
-            .authenticationManager(this.authenticationManager())
-            .authorizeHttpRequests {
+    fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain = httpSecurity
+        .cors { it.configurationSource(UrlBasedCorsConfigurationSource()) }
+        .csrf { it.csrfTokenRequestHandler(XorCsrfTokenRequestAttributeHandler()) }
+        .httpBasic { it.securityContextRepository(RequestAttributeSecurityContextRepository()) }
+        .authenticationManager(this.authenticationManager())
+        .authorizeHttpRequests {
 
-                it
-                    .requestMatchers(
-                        "/api/v1/security/csrf-token",
+            it
+                .requestMatchers(
+                    "/api/v1/security/csrf-token",
 
-                        "/api/v1/media/by-id", "/api/v1/media/create", "/api/v1/media/change", "/api/v1/media/delete",
+                    "/api/v1/media/by-id", "/api/v1/media/create", "/api/v1/media/change", "/api/v1/media/delete",
 
-                        "/api/v1/identities/create",
+                    "/api/v1/identities/create",
 
-                        "/api/v1/brands", "/api/v1/brands/by-id",
+                    "/api/v1/brands", "/api/v1/brands/by-id",
 
-                        "/api/v1/cars", "/api/v1/cars/by-id"
-                    )
-                    .permitAll()
+                    "/api/v1/cars", "/api/v1/cars/by-id"
+                )
+                .permitAll()
 
-                    .requestMatchers(
-                        "/api/v1/identities/by-id", "/api/v1/identities/update", "/api/v1/identities/delete",
-                        "/api/v1/identities/change-password", "/api/v1/identities/add-images", "/api/v1/identities/remove-images"
-                    )
-                    .hasAnyAuthority(ADMIN.authority, USER.authority)
+                .requestMatchers(
+                    "/api/v1/identities/by-id", "/api/v1/identities/update", "/api/v1/identities/delete",
+                    "/api/v1/identities/change-password", "/api/v1/identities/add-images", "/api/v1/identities/remove-images",
 
-                    .requestMatchers(
-                        "/api/v1/identities", "/api/v1/identities/enable-disable",
+                    "/api/v1/rents/by-identity", "/api/v1/rents/by-car", "/api/v1/rents/by-id",
+                    "/api/v1/rents/create", "/api/v1/rents/update", "/api/v1/rents/delete"
+                )
+                .hasAnyAuthority(ADMIN.authority, USER.authority)
 
-                        "/api/v1/brands/create", "/api/v1/brands/update", "/api/v1/brands/delete",
+                .requestMatchers(
+                    "/api/v1/identities", "/api/v1/identities/enable-disable",
 
-                        "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete",
-                        "/api/v1/cars/add-images", "/api/v1/cars/remove-images"
-                    )
-                    .hasAnyAuthority(ADMIN.authority)
-            }
-            .build()
-    }
+                    "/api/v1/brands/create", "/api/v1/brands/update", "/api/v1/brands/delete",
+
+                    "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete",
+                    "/api/v1/cars/add-images", "/api/v1/cars/remove-images",
+                )
+                .hasAnyAuthority(ADMIN.authority)
+        }
+        .build()
 }
