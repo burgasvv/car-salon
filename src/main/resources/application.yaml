@@ -21,6 +21,7 @@ spring:
         format_sql: true
         use_sql_comments: true
         highlight_sql: true
+        enable_lazy_load_no_trans: true
   flyway:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:6000/car_rental_postgres
