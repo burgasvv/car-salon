@@ -31,14 +31,4 @@ class Media : BaseEntity {
     var data: ByteArray = byteArrayOf()
 
     constructor()
-
-    @Suppress("unused")
-    constructor(id: UUID, name: String, contentType: String, format: String, size: Long, data: ByteArray) {
-        this.id = id
-        this.name = name
-        this.contentType = contentType
-        this.format = format
-        this.size = size
-        this.data = data
-    }
 }

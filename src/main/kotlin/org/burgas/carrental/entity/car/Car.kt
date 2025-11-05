@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.NamedAttributeNode
 import jakarta.persistence.NamedEntityGraph
+import jakarta.persistence.NamedSubgraph
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.burgas.carrental.entity.BaseEntity
@@ -25,7 +26,23 @@ import java.util.UUID
 @NamedEntityGraph(
     name = "car-entity-graph",
     attributeNodes = [
-        NamedAttributeNode(value = "brand")
+        NamedAttributeNode(value = "brand"),
+        NamedAttributeNode(value = "media"),
+        NamedAttributeNode(value = "rents", subgraph = "rents-subgraph")
+    ],
+    subgraphs = [
+        NamedSubgraph(
+            name = "rents-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "identity", subgraph = "identity-subgraph")
+            ]
+        ),
+        NamedSubgraph(
+            name = "identity-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "media")
+            ]
+        )
     ]
 )
 class Car : BaseEntity {

@@ -12,7 +12,22 @@ import java.util.*
     name = "identity-entity-graph",
     attributeNodes = [
         NamedAttributeNode(value = "media"),
-        NamedAttributeNode(value = "rents"),
+        NamedAttributeNode(value = "rents", subgraph = "rents-subgraph"),
+    ],
+    subgraphs = [
+        NamedSubgraph(
+            name = "rents-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "car", subgraph = "car-subgraph")
+            ]
+        ),
+        NamedSubgraph(
+            name = "car-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "media"),
+                NamedAttributeNode(value = "brand")
+            ]
+        )
     ]
 )
 class Identity : BaseEntity {

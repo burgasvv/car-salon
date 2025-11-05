@@ -43,11 +43,13 @@ class RentMapper : BasicMapper<RentRequest, Rent> {
                 this.identity = getIdentityMapper().identityRepository.findById(request.identityId ?: UUID.randomUUID())
                     .orElse(null) ?: it.identity
 
-                this.car = getCarMapper().carRepository.findCarById(request.carId ?: UUID.randomUUID())
+                val testCar = getCarMapper().carRepository.findCarById(request.carId ?: UUID.randomUUID())
                     .orElse(null) ?: it.car
 
-                if (!this.car.free)
+                if (!testCar.free)
                     throw IllegalArgumentException("Chosen car is not free")
+
+                this.car = testCar
 
                 this.closed = request.closed ?: it.closed
 
@@ -79,11 +81,13 @@ class RentMapper : BasicMapper<RentRequest, Rent> {
                 this.identity = getIdentityMapper().identityRepository.findById(request.identityId ?: UUID.randomUUID())
                     .orElse(null) ?: throw NullPointerException("Identity is null")
 
-                this.car = getCarMapper().carRepository.findCarById(request.carId ?: UUID.randomUUID())
+                val requestCar = getCarMapper().carRepository.findCarById(request.carId ?: UUID.randomUUID())
                     .orElse(null) ?: throw NullPointerException("Car is null")
 
-                if (!this.car.free)
+                if (!requestCar.free)
                     throw IllegalArgumentException("Chosen car is not free")
+
+                this.car = requestCar
 
                 val startTime = request.startTime ?: throw NullPointerException("Start time is null")
                 val endTime = request.endTime ?: throw NullPointerException("Ent tim is null")

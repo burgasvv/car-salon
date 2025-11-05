@@ -37,7 +37,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 this.authority = request.authority ?: identity.authority
                 this.email = request.email ?: identity.email
                 this.password = identity.password
-                this.enabled = identity.enabled
+                this.enabled = request.enabled ?: identity.enabled
                 this.firstname = request.firstname ?: identity.firstname
                 this.lastname = request.lastname ?: identity.lastname
                 this.patronymic = request.patronymic ?: identity.patronymic
@@ -49,7 +49,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 this.authority = request.authority ?: throw IllegalArgumentException("No authority specified.")
                 this.email = request.email ?: throw IllegalArgumentException("No email specified.")
                 this.password = passwordEncoder.encode(password)
-                this.enabled = true
+                this.enabled = request.enabled ?: throw IllegalArgumentException("No enabled specified")
                 this.firstname = request.firstname ?: throw IllegalArgumentException("No first name specified.")
                 this.lastname = request.lastname ?: throw IllegalArgumentException("No last name specified.")
                 this.patronymic = request.patronymic ?: throw IllegalArgumentException("No patronymic specified.")

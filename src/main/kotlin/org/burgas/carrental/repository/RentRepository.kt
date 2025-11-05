@@ -18,5 +18,6 @@ interface RentRepository : JpaRepository<Rent, UUID> {
     @EntityGraph(value = "rent-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     fun findRentsByIdentity(identity: Identity): MutableList<Rent>
 
+    @EntityGraph(value = "rent-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     fun findRentsByCar(car: Car): MutableList<Rent>
 }

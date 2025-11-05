@@ -102,10 +102,7 @@ class IdentityRouter : Router<IdentityService> {
         }
 
         GET("/api/v1/identities") {
-            ServerResponse
-                .status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(service.findAll())
+            ServerResponse.ok().body(service.findAll())
         }
 
         GET("/api/v1/identities/by-id") { request ->
