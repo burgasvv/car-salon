@@ -5,6 +5,7 @@ import org.burgas.carrental.entity.identity.Identity
 import org.burgas.carrental.entity.rent.Rent
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.util.Optional
 import java.util.UUID
@@ -15,9 +16,9 @@ interface RentRepository : JpaRepository<Rent, UUID> {
     @EntityGraph(value = "rent-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     override fun findById(id: UUID): Optional<Rent>
 
-    @EntityGraph(value = "rent-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = ["car.brand", "car.media"])
     fun findRentsByIdentity(identity: Identity): MutableList<Rent>
 
-    @EntityGraph(value = "rent-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = ["identity.media"])
     fun findRentsByCar(car: Car): MutableList<Rent>
 }

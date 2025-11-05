@@ -9,17 +9,13 @@ import org.burgas.carrental.exception.RentNotFoundException
 import org.burgas.carrental.mapper.RentMapper
 import org.burgas.carrental.message.RentMessages
 import org.burgas.carrental.service.contract.BaseService
-import org.springframework.cache.annotation.CacheConfig
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
-@CacheConfig(cacheManager = "rentCacheManager")
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 class RentService : BaseService {
 
@@ -36,7 +32,6 @@ class RentService : BaseService {
     fun findEntity(rentId: UUID): Rent = this.rentMapper.rentRepository.findById(rentId)
         .orElseThrow { throw RentNotFoundException(RentMessages.RENT_NOT_FOUND.message) }
 
-    @Cacheable(value = ["rentFullResponse"], key = "#rentId")
     fun findById(rentId: UUID): RentFullResponse = this.rentMapper.toFullResponse(this.findEntity(rentId))
 
     fun findByIdentityId(identityId: UUID): List<RentWithCarResponse> {
@@ -65,7 +60,6 @@ class RentService : BaseService {
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["rentFullResponse"], key = "#rentRequest.id")
     fun update(rentRequest: RentRequest): RentFullResponse = this.rentMapper.toFullResponse(
         this.rentMapper.rentRepository.save(this.rentMapper.toEntity(rentRequest))
     )
@@ -75,7 +69,6 @@ class RentService : BaseService {
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["rentFullResponse"], key = "#rentId")
     fun delete(rentId: UUID) {
         val rent = this.findEntity(rentId)
         this.rentMapper.rentRepository.delete(rent)

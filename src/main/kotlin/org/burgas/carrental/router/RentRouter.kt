@@ -29,11 +29,7 @@ class RentRouter : Router<RentService> {
     fun rentRoutes() = router {
 
         filter { request, function ->
-            if (
-                request.path().equals("/api/v1/rents/by-id", false) ||
-                request.path().equals("/api/v1/rents/by-identity", false) ||
-                request.path().equals("/api/v1/rents/delete", false)
-            ) {
+            if (request.path().equals("/api/v1/rents/by-identity", false)) {
                 val authentication = request.principal().orElseThrow() as Authentication
 
                 if (authentication.isAuthenticated) {
@@ -69,6 +65,29 @@ class RentRouter : Router<RentService> {
 
                     } else {
                         throw IdentityNotAuthorizedException("Identity Not Authorized")
+                    }
+
+                } else {
+                    throw IdentityNotAuthenticatedException("Identity not authenticated")
+                }
+
+            }  else if (
+                request.path().equals("/api/v1/rents/by-id", false) ||
+                request.path().equals("/api/v1/rents/delete", false)
+            ) {
+                val authentication = request.principal().orElseThrow() as Authentication
+
+                if (authentication.isAuthenticated) {
+                    val identityDetails = authentication.principal as IdentityDetails
+                    val rentIdParam = request.param("rentId").orElseThrow()
+                    val rentId = UUID.fromString(rentIdParam)
+                    val rent = service.findEntity(rentId)
+
+                    if (identityDetails.identity.id == rent.identity.id) {
+                        return@filter function(request)
+
+                    } else {
+                        throw IdentityNotAuthorizedException("Identity not authorized")
                     }
 
                 } else {

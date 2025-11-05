@@ -210,8 +210,35 @@ X-Csrf-Token: UDGcqXXBzv5A1cPfAuzKVaYIYqYju60tV9rUTb5TVPv5f_TwNgf4kEHxrcpt7PHvYM
 
 
 ###
+GET /api/v1/rents/by-car?carId=a37e5815-5535-4027-a9d4-cc86fc1d0686
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/rents/by-identity?identityId=ba13e4ae-31ed-4310-81c7-f8357508bb1c
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/rents/by-id?rentId=b9de61f0-3316-4367-93cb-8732e4bc0be3
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
 POST /api/v1/rents/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: GN5aDpBtbWQEsdBIMfkzNEpPd56uQ40JKt1feyeD4PI8BjUoe-Y7P6heVFcphrF8AtQHDXwqWqfMILwkSeVvQkWx0pZdNAIR
+
+{
+    "identityId": "ba13e4ae-31ed-4310-81c7-f8357508bb1c",
+    "carId": "a37e5815-5535-4027-a9d4-cc86fc1d0686",
+    "startTime": "2025-11-06T13:40",
+    "endTime": "2025-11-07T14:00",
+    "closed": false
+}

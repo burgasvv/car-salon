@@ -24,7 +24,6 @@ import java.util.*
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
-@CacheConfig(cacheManager = "identityCacheManager")
 class IdentityService : BaseService, CrudService<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
     private final val identityMapper: IdentityMapper
@@ -43,7 +42,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
     override fun findAll(): List<IdentityShortResponse> = this.identityMapper.identityRepository.findAll()
         .map { identity -> this.identityMapper.toShortResponse(identity) }
 
-    @Cacheable(value = ["identityFullResponse"], key = "#id")
     override fun findById(id: UUID): IdentityFullResponse = this.identityMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
@@ -54,7 +52,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
     )
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#request.id")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
@@ -63,7 +60,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         this.identityMapper.identityRepository.save(this.identityMapper.toEntity(request))
     )
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#id")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
@@ -73,7 +69,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         this.identityMapper.identityRepository.delete(entity)
     }
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#identityId")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
@@ -88,7 +83,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         }
     }
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#identityId")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
@@ -101,7 +95,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         }
     }
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#identityId")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]
@@ -114,7 +107,6 @@ class IdentityService : BaseService, CrudService<IdentityRequest, Identity, Iden
         }
     }
 
-    @CacheEvict(value = ["identityFullResponse"], key = "#identityId")
     @Transactional(
         isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
         rollbackFor = [RuntimeException::class, Throwable::class]

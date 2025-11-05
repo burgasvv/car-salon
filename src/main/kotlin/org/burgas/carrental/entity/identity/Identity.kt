@@ -12,7 +12,7 @@ import java.util.*
     name = "identity-entity-graph",
     attributeNodes = [
         NamedAttributeNode(value = "media"),
-        NamedAttributeNode(value = "rents", subgraph = "rents-subgraph"),
+        NamedAttributeNode(value = "rents", subgraph = "rents-subgraph")
     ],
     subgraphs = [
         NamedSubgraph(

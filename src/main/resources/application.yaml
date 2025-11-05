@@ -21,8 +21,6 @@ spring:
         format_sql: true
         use_sql_comments: true
         highlight_sql: true
-  cache:
-    type: redis
   flyway:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:6000/car_rental_postgres

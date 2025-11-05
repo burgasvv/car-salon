@@ -20,7 +20,6 @@ import java.util.*
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
-@CacheConfig(cacheManager = "brandCacheManager")
 class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortResponse, BrandFullResponse> {
 
     private final val brandMapper: BrandMapper
@@ -35,7 +34,6 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
     override fun findAll(): List<BrandShortResponse> = this.brandMapper.brandRepository.findAll()
         .map { this.brandMapper.toShortResponse(it) }
 
-    @Cacheable(value = ["brandFullResponse"], key = "#id")
     override fun findById(id: UUID): BrandFullResponse = this.brandMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
@@ -47,7 +45,6 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
         this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
     )
 
-    @CacheEvict(value = ["brandFullResponse"], key = "#request.id")
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,
@@ -57,7 +54,6 @@ class BrandService : BaseService, CrudService<BrandRequest, Brand, BrandShortRes
         this.brandMapper.brandRepository.save(this.brandMapper.toEntity(request))
     )
 
-    @CacheEvict(value = ["brandFullResponse"], key = "#id")
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
         propagation = Propagation.REQUIRED,

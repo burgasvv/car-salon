@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
-@CacheConfig(cacheManager = "carCacheManager")
 class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, CarFullResponse> {
 
     private final val carMapper: CarMapper
@@ -56,7 +55,6 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     override fun findAll(): List<CarShortResponse> = this.carMapper.carRepository.findAll()
         .map { this.carMapper.toShortResponse(it) }
 
-    @Cacheable(value = ["carFullResponse"], key = "#id")
     override fun findById(id: UUID): CarFullResponse = this.carMapper.toFullResponse(this.findEntity(id))
 
     @Transactional(
@@ -73,7 +71,6 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["carFullResponse"], key = "#request.id")
     override fun update(request: CarRequest): CarFullResponse = this.carMapper.toFullResponse(
         this.carMapper.carRepository.save(this.carMapper.toEntity(request))
     )
@@ -83,7 +80,6 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["carFullResponse"], key = "#id")
     override fun delete(id: UUID) {
         val car = this.findEntity(id)
         this.carMapper.carRepository.delete(car)
@@ -94,7 +90,6 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["carFullResponse"], key = "#carId")
     fun addImages(carId: UUID, parts: List<Part>) {
         val car = this.findEntity(carId)
         parts.forEach {
@@ -108,7 +103,6 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
         propagation = Propagation.REQUIRED,
         rollbackFor = [Throwable::class, RuntimeException::class]
     )
-    @CacheEvict(value = ["carFullResponse"], key = "#carId")
     fun removeImages(carId: UUID, mediaIds: List<UUID>) {
         val car = this.findEntity(carId)
         mediaIds.forEach { mediaId ->
