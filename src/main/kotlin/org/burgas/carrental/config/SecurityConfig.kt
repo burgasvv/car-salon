@@ -61,7 +61,7 @@ class SecurityConfig {
                     "/api/v1/identities/by-id", "/api/v1/identities/update", "/api/v1/identities/delete",
                     "/api/v1/identities/change-password", "/api/v1/identities/add-images", "/api/v1/identities/remove-images",
 
-                    "/api/v1/rents/by-identity", "/api/v1/rents/by-car", "/api/v1/rents/by-id",
+                    "/api/v1/rents/by-identity", "/api/v1/rents/by-id",
                     "/api/v1/rents/create", "/api/v1/rents/update", "/api/v1/rents/delete"
                 )
                 .hasAnyAuthority(ADMIN.authority, USER.authority)
@@ -73,6 +73,8 @@ class SecurityConfig {
 
                     "/api/v1/cars/create", "/api/v1/cars/update", "/api/v1/cars/delete",
                     "/api/v1/cars/add-images", "/api/v1/cars/remove-images",
+
+                    "/api/v1/rents/by-car"
                 )
                 .hasAnyAuthority(ADMIN.authority)
         }

@@ -16,6 +16,9 @@ interface CarRepository : JpaRepository<Car, UUID> {
     @Query(value = "select c from org.burgas.carrental.entity.car.Car c left join fetch c.brand left join fetch c.media")
     override fun findAll(): List<Car>
 
+    @Query(value = "select c from org.burgas.carrental.entity.car.Car c left join fetch c.rents")
+    fun findAllScheduled(): List<Car>
+
     @EntityGraph(value = "car-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     override fun findById(id: UUID): Optional<Car>
 

@@ -13,11 +13,14 @@ import org.burgas.carrental.service.contract.CrudService
 import org.springframework.cache.annotation.CacheConfig
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
@@ -30,6 +33,21 @@ class CarService : BaseService, CrudService<CarRequest, Car, CarShortResponse, C
     constructor(carMapper: CarMapper, mediaService1: MediaService) {
         this.carMapper = carMapper
         this.mediaService = mediaService1
+    }
+
+    @Scheduled(timeUnit = TimeUnit.SECONDS, fixedRate = 10)
+    fun checkCars() {
+        val findAll = this.carMapper.carRepository.findAllScheduled()
+        if (!findAll.isEmpty()) {
+            findAll.forEach { car ->
+                val now = LocalDateTime.now()
+                car.rents.forEach { rent ->
+                    if (now.isAfter(rent.startTime) && now.isBefore(rent.endTime)) {
+                        car.free = false
+                    }
+                }
+            }
+        }
     }
 
     override fun findEntity(id: UUID): Car = this.carMapper.carRepository.findById(id)

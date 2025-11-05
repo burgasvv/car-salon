@@ -202,3 +202,16 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: UDGcqXXBzv5A1cPfAuzKVaYIYqYju60tV9rUTb5TVPv5f_TwNgf4kEHxrcpt7PHvYMH-MMdpT58Q2p0AYr_ie4ZmY52YScLJ
+
+
+
+### Rent Requests
+
+
+
+###
+POST /api/v1/rents/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
