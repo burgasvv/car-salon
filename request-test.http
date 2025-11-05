@@ -173,13 +173,13 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: eJhT4VNLRtGdclQykPsY7eayAhi8DJHm62KE20AGZZG5lk5OHPxggmN9frSwRmZUptYs3N_ULyCMaaLLj1O963I1XfCLpnoq
+X-Csrf-Token: SYnJgVS1Az9FpMsBNv2XCeajXcOz5pen8scfVRzbib2UJPCsebD8uGWNNg1okvJgAdCjaNabcKLW0fSKx_8mZC3vvN7yHcCY
 
 {
-    "brandId": "4e1f070f-1bbd-40b7-9b5b-796a1a64a32e",
-    "model": "DB9",
-    "characteristics": "Характеристики автомобиля модели DB9 2020 года",
-    "rentPrice": 2500.0,
+    "brandId": "32b0f48f-9e61-4c48-944d-d42d82ea9fb3",
+    "model": "911",
+    "characteristics": "Характеристики автомобиля модели 911 2015 года",
+    "rentPrice": 1800.0,
     "free": true
 }
 
@@ -240,5 +240,21 @@ X-Csrf-Token: GN5aDpBtbWQEsdBIMfkzNEpPd56uQ40JKt1feyeD4PI8BjUoe-Y7P6heVFcphrF8At
     "carId": "a37e5815-5535-4027-a9d4-cc86fc1d0686",
     "startTime": "2025-11-06T13:40",
     "endTime": "2025-11-07T14:00",
+    "closed": false
+}
+
+###
+POST /api/v1/rents/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic zagor@gmail.com zagor
+X-Csrf-Token: bup8QjdMRuEowVkFrxZb1Q1qMrWJq-_Fp3MrmK2Z6K9aHNREXtNJewZ0c9MF92BkmDtvtD1SH9TsnIzokksSqZyt3cw8JeRw
+
+{
+    "identityId": "876885f6-034e-4478-8fde-addb05b11d80",
+    "carId": "a136e4c4-0f0a-436f-b31b-66bc0300d392",
+    "startTime": "2025-12-06T15:00",
+    "endTime": "2025-12-07T17:00",
     "closed": false
 }

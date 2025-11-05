@@ -12,7 +12,6 @@ spring:
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
     show-sql: true
     hibernate:
       ddl-auto: none
@@ -21,7 +20,6 @@ spring:
         format_sql: true
         use_sql_comments: true
         highlight_sql: true
-        enable_lazy_load_no_trans: true
   flyway:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:6000/car_rental_postgres
