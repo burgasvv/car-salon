@@ -14,5 +14,17 @@ services:
     volumes:
       - postgres_data:/var/lib/data/postgresql
 
+  car-rental:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/car_rental_postgres
+
 volumes:
   postgres_data:
