@@ -10,9 +10,6 @@ import org.burgas.carrental.mapper.CarMapper
 import org.burgas.carrental.message.CarMessages
 import org.burgas.carrental.service.contract.BaseService
 import org.burgas.carrental.service.contract.CrudService
-import org.springframework.cache.annotation.CacheConfig
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation

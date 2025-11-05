@@ -12,9 +12,6 @@ import org.burgas.carrental.mapper.IdentityMapper
 import org.burgas.carrental.message.IdentityMessages
 import org.burgas.carrental.service.contract.BaseService
 import org.burgas.carrental.service.contract.CrudService
-import org.springframework.cache.annotation.CacheConfig
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
