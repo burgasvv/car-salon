@@ -6,7 +6,7 @@ spring:
     name: car-rental
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:6000/car_rental_postgres
+    url: jdbc:postgresql://postgres:5432/car_rental_postgres
     username: postgres
     password: postgres
   jpa:
@@ -22,7 +22,7 @@ spring:
         highlight_sql: true
   flyway:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:6000/car_rental_postgres
+    url: jdbc:postgresql://postgres:5432/car_rental_postgres
     user: postgres
     password: postgres
 logging:

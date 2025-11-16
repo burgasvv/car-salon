@@ -6,7 +6,7 @@ services:
     container_name: car_rental_postgres
     restart: unless-stopped
     ports:
-      - "6000:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
