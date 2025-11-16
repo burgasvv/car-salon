@@ -25,6 +25,11 @@ services:
       - postgres
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/car_rental_postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    volumes:
+      - car_rental_data:/var/lib/data/car-rental
 
 volumes:
   postgres_data:
+  car_rental_data:
